@@ -1,0 +1,34 @@
+name: System Test
+main: com.firestar.systemtest.systemtest
+version: 0.1
+commands:
+  st_events:
+    description: Events in string
+    usage: /<command>
+  st_event:
+    description: Event by name
+    usage: /<command> event_name
+  st_spam_all:
+    description: Spam events in string
+    usage: /<command> event_name
+  st_spam:
+    description: Spam by event
+    usage: /<command> event_name
+  st_toggle:
+    description: Event by name
+    usage: /<command> event_name
+  st_get:
+    description: get events by type
+    usage: /<command> (block/player/entity/world/vehicle)
+  st_stime:
+    description: Sets spammy time
+    usage: /<command> event_name integer 
+  st_gtime:
+    description: Get spammy time
+    usage: /<command> event_name
+  st_reset:
+    description: Resets counters
+    usage: /<command>
+  st_save:
+    description: Save info to file
+    usage: /<command> (events/spam)
