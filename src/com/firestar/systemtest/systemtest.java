@@ -225,9 +225,12 @@ public class systemtest extends JavaPlugin{
 	        }else if(commandName.equalsIgnoreCase("st_disabled")){
 	        	player.sendMessage("Disabled Events Below");
 	        	player.sendMessage("----------------------------------");
-	        	for(String event : categorized_events.get("entity")){
-	        		player.sendMessage(event);
-	        	}
+	        	for ( Map.Entry<String, Boolean> entry : event_disabled.entrySet() ){
+					String key = entry.getKey();
+					if(entry.getValue()){
+						player.sendMessage(key);
+					}
+				}
 	        	return true;
 	        }else if(commandName.equalsIgnoreCase("st_disable_all")){
 	        	for ( Map.Entry<String, List<String>> entry : categorized_events.entrySet() ){
