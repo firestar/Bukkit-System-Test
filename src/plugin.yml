@@ -26,6 +26,15 @@ commands:
   st_gtime:
     description: Get spammy time
     usage: /<command> event_name
+  st_disabled:
+    description: checks to see what events are disabled
+    usage: /<command>
+  st_disable_all:
+    description: disable all events
+    usage: /<command>
+  st_enable_all:
+    description: enable all events
+    usage: /<command>
   st_reset:
     description: Resets counters
     usage: /<command>

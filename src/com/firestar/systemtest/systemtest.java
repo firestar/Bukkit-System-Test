@@ -88,140 +88,167 @@ public class systemtest extends JavaPlugin{
         System.out.println(name + " " + version + " initialized");
     }
 	public boolean onCommand(Player player, Command command, String commandLabel, String[] args) {
-        String commandName = command.getName().toLowerCase();
-        if(commandName.equalsIgnoreCase("st_events")){
-        	player.sendMessage(information.toString());
-    		return true;
-        }else if(commandName.equalsIgnoreCase("st_event")){
-        	if(args.length>1){
-        		if(information.containsKey(args[1])){
-        			player.sendMessage(args[1]+" has fired "+information.get(args[1])+" time(s)");
-        			return true;
-        		}else{
-        			player.sendMessage(args[1]+" does not exist!");
-        			return true;
-        		}
-        	}
-        }else if(commandName.equalsIgnoreCase("st_spam_all")){
-        	player.sendMessage(spammy.toString());
-    		return true;
-        }else if(commandName.equalsIgnoreCase("st_spam")){
-        	if(args.length>1){
-        		if(spammy.containsKey(args[1])){
-        			player.sendMessage(args[1]+" spam has been going on for "+(((int)spammy.get(args[1])+1)*5)+" second(s)");
-        			return true;
-        		}else{
-        			player.sendMessage(args[1]+" not a spammy event!");
-        			return true;
-        		}
-        	}
-        }else if(commandName.equalsIgnoreCase("st_toggle")){
-        	if(args.length>1){
-        		if(event_disabled.containsKey(args[1])){
-        			if(event_disabled.get(args[1])){
-        				event_disabled.put(args[1], false);
-        				player.sendMessage(args[1]+" Enabled!");
-        			}else{
-        				event_disabled.put(args[1], true);
-        				player.sendMessage(args[1]+" Disabled!");
-        			}
-        			return true;
-        		}else{
-        			event_disabled.put(args[1], true);
-        			player.sendMessage(args[1]+" Disabled!");
-        			return true;
-        		}
-        	}
-        }else if(commandName.equalsIgnoreCase("st_stime")){
-        	if(args.length>2){
-        		spammy_time.put(args[1], Integer.valueOf(args[2]));
-        		player.sendMessage(args[1]+" set spammy time!");
-        	}
-        }else if(commandName.equalsIgnoreCase("st_gtime")){
-        	if(args.length>1){
-        		if(spammy_time.containsKey(args[1])){
-        			player.sendMessage(args[1]+" spam time: "+spammy_time.get(args[1]));
-        			return true;
-        		}else{
-        			player.sendMessage(args[1]+" spam time: 200");
-        			return true;
-        		}
-        	}
-        }else if(commandName.equalsIgnoreCase("st_reset")){
-        	player.sendMessage("Resetting system tests!");
-        	RESET();
-        }else if(commandName.equalsIgnoreCase("st_save")){
-        	if(args.length>1){
-        		if(args[1].contentEquals("events")){
-        			try{
-        				FileWriter fstream = new FileWriter("st_dump_events.txt");
-        				BufferedWriter out = new BufferedWriter(fstream);
-        				for ( Map.Entry<String, Integer> entry : information.entrySet() ){
-        					String key = entry.getKey();
-        	    			Integer value = entry.getValue();
-        					out.write(key+":"+value+"\n");
-        				}
-        				out.close();
-        				player.sendMessage("Events dump file saved!");
-        			}catch (Exception e){
-        			}
-        			return true;
-        		}else if(args[1].contentEquals("spam")){
-        			try{
-        				FileWriter fstream = new FileWriter("st_dump_spam.txt");
-        				BufferedWriter out = new BufferedWriter(fstream);
-        				for ( Map.Entry<String, Integer> entry : spammy.entrySet() ){
-        					String key = entry.getKey();
-        	    			Integer value = entry.getValue();
-        					out.write(key+":"+value+"\n");
-        				}
-        				out.close();
-        				player.sendMessage("Spam dump file saved!");
-        			}catch (Exception e){
-        			}
-        			return true;
-        		}
-        	}
-        }else if(commandName.equalsIgnoreCase("st_get")){
-        	if(args.length>1){
-        		if(args[1].contentEquals("player")){
-        			player.sendMessage("Player Event Names Below");
-        			player.sendMessage("----------------------------------");
-        			for(String event : categorized_events.get("player")){
-        				player.sendMessage(event);
-        			}
-        			return true;
-        		}else if(args[1].contentEquals("block")){
-        			player.sendMessage("Block Event Names Below");
-        			player.sendMessage("----------------------------------");
-        			for(String event : categorized_events.get("block")){
-        				player.sendMessage(event);
-        			}
-        			return true;
-        		}else if(args[1].contentEquals("world")){
-        			player.sendMessage("World Event Names Below");
-        			player.sendMessage("----------------------------------");
-        			for(String event : categorized_events.get("world")){
-        				player.sendMessage(event);
-        			}
-        			return true;
-        		}else if(args[1].contentEquals("entity")){
-        			player.sendMessage("Entity Event Names Below");
-        			player.sendMessage("----------------------------------");
-        			for(String event : categorized_events.get("entity")){
-        				player.sendMessage(event);
-        			}
-        			return true;
-        		}else if(args[1].contentEquals("vehicle")){
-        			player.sendMessage("Vehicle Event Names Below");
-        			player.sendMessage("----------------------------------");
-        			for(String event : categorized_events.get("entity")){
-        				player.sendMessage(event);
-        			}
-        			return true;
-        		}
-        	}
-        }
+		if(player.isOp()){
+	        String commandName = command.getName().toLowerCase();
+	        if(commandName.equalsIgnoreCase("st_events")){
+	        	player.sendMessage(information.toString());
+	    		return true;
+	        }else if(commandName.equalsIgnoreCase("st_event")){
+	        	if(args.length>1){
+	        		if(information.containsKey(args[1])){
+	        			player.sendMessage(args[1]+" has fired "+information.get(args[1])+" time(s)");
+	        			return true;
+	        		}else{
+	        			player.sendMessage(args[1]+" does not exist!");
+	        			return true;
+	        		}
+	        	}
+	        }else if(commandName.equalsIgnoreCase("st_spam_all")){
+	        	player.sendMessage(spammy.toString());
+	    		return true;
+	        }else if(commandName.equalsIgnoreCase("st_spam")){
+	        	if(args.length>1){
+	        		if(spammy.containsKey(args[1])){
+	        			player.sendMessage(args[1]+" spam has been going on for "+(((int)spammy.get(args[1])+1)*5)+" second(s)");
+	        			return true;
+	        		}else{
+	        			player.sendMessage(args[1]+" not a spammy event!");
+	        			return true;
+	        		}
+	        	}
+	        }else if(commandName.equalsIgnoreCase("st_toggle")){
+	        	if(args.length>1){
+	        		if(event_disabled.containsKey(args[1])){
+	        			if(event_disabled.get(args[1])){
+	        				event_disabled.put(args[1], false);
+	        				player.sendMessage(args[1]+" Enabled!");
+	        			}else{
+	        				event_disabled.put(args[1], true);
+	        				player.sendMessage(args[1]+" Disabled!");
+	        			}
+	        			return true;
+	        		}else{
+	        			event_disabled.put(args[1], true);
+	        			player.sendMessage(args[1]+" Disabled!");
+	        			return true;
+	        		}
+	        	}
+	        }else if(commandName.equalsIgnoreCase("st_stime")){
+	        	if(args.length>2){
+	        		spammy_time.put(args[1], Integer.valueOf(args[2]));
+	        		player.sendMessage(args[1]+" set spammy time!");
+	        	}
+	        }else if(commandName.equalsIgnoreCase("st_gtime")){
+	        	if(args.length>1){
+	        		if(spammy_time.containsKey(args[1])){
+	        			player.sendMessage(args[1]+" spam time: "+spammy_time.get(args[1]));
+	        			return true;
+	        		}else{
+	        			player.sendMessage(args[1]+" spam time: 200");
+	        			return true;
+	        		}
+	        	}
+	        }else if(commandName.equalsIgnoreCase("st_reset")){
+	        	player.sendMessage("Resetting system tests!");
+	        	RESET();
+	        }else if(commandName.equalsIgnoreCase("st_save")){
+	        	if(args.length>1){
+	        		if(args[1].contentEquals("events")){
+	        			try{
+	        				FileWriter fstream = new FileWriter("st_dump_events.txt");
+	        				BufferedWriter out = new BufferedWriter(fstream);
+	        				for ( Map.Entry<String, Integer> entry : information.entrySet() ){
+	        					String key = entry.getKey();
+	        	    			Integer value = entry.getValue();
+	        					out.write(key+":"+value+"\n");
+	        				}
+	        				out.close();
+	        				player.sendMessage("Events dump file saved!");
+	        			}catch (Exception e){
+	        			}
+	        			return true;
+	        		}else if(args[1].contentEquals("spam")){
+	        			try{
+	        				FileWriter fstream = new FileWriter("st_dump_spam.txt");
+	        				BufferedWriter out = new BufferedWriter(fstream);
+	        				for ( Map.Entry<String, Integer> entry : spammy.entrySet() ){
+	        					String key = entry.getKey();
+	        	    			Integer value = entry.getValue();
+	        					out.write(key+":"+value+"\n");
+	        				}
+	        				out.close();
+	        				player.sendMessage("Spam dump file saved!");
+	        			}catch (Exception e){
+	        			}
+	        			return true;
+	        		}
+	        	}
+	        }else if(commandName.equalsIgnoreCase("st_get")){
+	        	if(args.length>1){
+	        		if(args[1].contentEquals("player")){
+	        			player.sendMessage("Player Event Names Below");
+	        			player.sendMessage("----------------------------------");
+	        			for(String event : categorized_events.get("player")){
+	        				player.sendMessage(event);
+	        			}
+	        			return true;
+	        		}else if(args[1].contentEquals("block")){
+	        			player.sendMessage("Block Event Names Below");
+	        			player.sendMessage("----------------------------------");
+	        			for(String event : categorized_events.get("block")){
+	        				player.sendMessage(event);
+	        			}
+	        			return true;
+	        		}else if(args[1].contentEquals("world")){
+	        			player.sendMessage("World Event Names Below");
+	        			player.sendMessage("----------------------------------");
+	        			for(String event : categorized_events.get("world")){
+	        				player.sendMessage(event);
+	        			}
+	        			return true;
+	        		}else if(args[1].contentEquals("entity")){
+	        			player.sendMessage("Entity Event Names Below");
+	        			player.sendMessage("----------------------------------");
+	        			for(String event : categorized_events.get("entity")){
+	        				player.sendMessage(event);
+	        			}
+	        			return true;
+	        		}else if(args[1].contentEquals("vehicle")){
+	        			player.sendMessage("Vehicle Event Names Below");
+	        			player.sendMessage("----------------------------------");
+	        			for(String event : categorized_events.get("entity")){
+	        				player.sendMessage(event);
+	        			}
+	        			return true;
+	        		}
+	        	}
+	        }else if(commandName.equalsIgnoreCase("st_disabled")){
+	        	player.sendMessage("Disabled Events Below");
+	        	player.sendMessage("----------------------------------");
+	        	for(String event : categorized_events.get("entity")){
+	        		player.sendMessage(event);
+	        	}
+	        	return true;
+	        }else if(commandName.equalsIgnoreCase("st_disable_all")){
+	        	for ( Map.Entry<String, List<String>> entry : categorized_events.entrySet() ){
+	    			List<String> event_list = entry.getValue();
+	    			for(String event : event_list){
+	    				event_disabled.put(event, true);
+	    			}
+	    		}
+	        	player.sendMessage("Disabled all events.");
+	        	return true;
+	        }else if(commandName.equalsIgnoreCase("st_enable_all")){
+	        	for ( Map.Entry<String, List<String>> entry : categorized_events.entrySet() ){
+	    			List<String> event_list = entry.getValue();
+	    			for(String event : event_list){
+	    				event_disabled.put(event, false);
+	    			}
+	    		}
+	        	player.sendMessage("Enabled all events.");
+	        	return true;
+	        }
+		}
         return false;
     }
 	public void RESET(){
