@@ -32,6 +32,7 @@ public class systemtest extends JavaPlugin{
 	public Hashtable<String,Integer> information= new Hashtable<String,Integer>();
 	public Hashtable<String,Boolean> event_disabled= new Hashtable<String,Boolean>();
 	public Hashtable<String,Integer> spammy_time= new Hashtable<String,Integer>();
+	public Hashtable<String,Integer> category_toggle= new Hashtable<String,Integer>();
 	public Hashtable<String,List<String>> categorized_events= new Hashtable<String,List<String>>();
 	public Hashtable<String,Integer> spammy= new Hashtable<String,Integer>();
 	public Hashtable<String,Integer> information_old= new Hashtable<String,Integer>();
@@ -94,12 +95,12 @@ public class systemtest extends JavaPlugin{
 	        	player.sendMessage(information.toString());
 	    		return true;
 	        }else if(commandName.equalsIgnoreCase("st_event")){
-	        	if(args.length>1){
-	        		if(information.containsKey(args[1])){
-	        			player.sendMessage(args[1]+" has fired "+information.get(args[1])+" time(s)");
+	        	if(args.length==1){
+	        		if(information.containsKey(args[0])){
+	        			player.sendMessage(args[0]+" has fired "+information.get(args[0])+" time(s)");
 	        			return true;
 	        		}else{
-	        			player.sendMessage(args[1]+" does not exist!");
+	        			player.sendMessage(args[0]+" does not exist!");
 	        			return true;
 	        		}
 	        	}
@@ -107,44 +108,44 @@ public class systemtest extends JavaPlugin{
 	        	player.sendMessage(spammy.toString());
 	    		return true;
 	        }else if(commandName.equalsIgnoreCase("st_spam")){
-	        	if(args.length>1){
-	        		if(spammy.containsKey(args[1])){
-	        			player.sendMessage(args[1]+" spam has been going on for "+(((int)spammy.get(args[1])+1)*5)+" second(s)");
+	        	if(args.length==1){
+	        		if(spammy.containsKey(args[0])){
+	        			player.sendMessage(args[0]+" spam has been going on for "+(((int)spammy.get(args[0])+1)*5)+" second(s)");
 	        			return true;
 	        		}else{
-	        			player.sendMessage(args[1]+" not a spammy event!");
+	        			player.sendMessage(args[0]+" not a spammy event!");
 	        			return true;
 	        		}
 	        	}
 	        }else if(commandName.equalsIgnoreCase("st_toggle")){
-	        	if(args.length>1){
-	        		if(event_disabled.containsKey(args[1])){
-	        			if(event_disabled.get(args[1])){
-	        				event_disabled.put(args[1], false);
-	        				player.sendMessage(args[1]+" Enabled!");
+	        	if(args.length==1){
+	        		if(event_disabled.containsKey(args[0])){
+	        			if(event_disabled.get(args[0])){
+	        				event_disabled.put(args[0], false);
+	        				player.sendMessage(args[0]+" Enabled!");
 	        			}else{
-	        				event_disabled.put(args[1], true);
-	        				player.sendMessage(args[1]+" Disabled!");
+	        				event_disabled.put(args[0], true);
+	        				player.sendMessage(args[0]+" Disabled!");
 	        			}
 	        			return true;
 	        		}else{
-	        			event_disabled.put(args[1], true);
-	        			player.sendMessage(args[1]+" Disabled!");
+	        			event_disabled.put(args[0], true);
+	        			player.sendMessage(args[0]+" Disabled!");
 	        			return true;
 	        		}
 	        	}
 	        }else if(commandName.equalsIgnoreCase("st_stime")){
-	        	if(args.length>2){
-	        		spammy_time.put(args[1], Integer.valueOf(args[2]));
+	        	if(args.length==2){
+	        		spammy_time.put(args[0], Integer.valueOf(args[1]));
 	        		player.sendMessage(args[1]+" set spammy time!");
 	        	}
 	        }else if(commandName.equalsIgnoreCase("st_gtime")){
-	        	if(args.length>1){
-	        		if(spammy_time.containsKey(args[1])){
-	        			player.sendMessage(args[1]+" spam time: "+spammy_time.get(args[1]));
+	        	if(args.length==1){
+	        		if(spammy_time.containsKey(args[0])){
+	        			player.sendMessage(args[0]+" spam time: "+spammy_time.get(args[0]));
 	        			return true;
 	        		}else{
-	        			player.sendMessage(args[1]+" spam time: 200");
+	        			player.sendMessage(args[0]+" spam time: 200");
 	        			return true;
 	        		}
 	        	}
@@ -152,8 +153,8 @@ public class systemtest extends JavaPlugin{
 	        	player.sendMessage("Resetting system tests!");
 	        	RESET();
 	        }else if(commandName.equalsIgnoreCase("st_save")){
-	        	if(args.length>1){
-	        		if(args[1].contentEquals("events")){
+	        	if(args.length==1){
+	        		if(args[0].contentEquals("events")){
 	        			try{
 	        				FileWriter fstream = new FileWriter("st_dump_events.txt");
 	        				BufferedWriter out = new BufferedWriter(fstream);
@@ -167,7 +168,7 @@ public class systemtest extends JavaPlugin{
 	        			}catch (Exception e){
 	        			}
 	        			return true;
-	        		}else if(args[1].contentEquals("spam")){
+	        		}else if(args[0].contentEquals("spam")){
 	        			try{
 	        				FileWriter fstream = new FileWriter("st_dump_spam.txt");
 	        				BufferedWriter out = new BufferedWriter(fstream);
@@ -184,36 +185,36 @@ public class systemtest extends JavaPlugin{
 	        		}
 	        	}
 	        }else if(commandName.equalsIgnoreCase("st_get")){
-	        	if(args.length>1){
-	        		if(args[1].contentEquals("player")){
+	        	if(args.length==1){
+	        		if(args[0].contentEquals("player")){
 	        			player.sendMessage("Player Event Names Below");
 	        			player.sendMessage("----------------------------------");
 	        			for(String event : categorized_events.get("player")){
 	        				player.sendMessage(event);
 	        			}
 	        			return true;
-	        		}else if(args[1].contentEquals("block")){
+	        		}else if(args[0].contentEquals("block")){
 	        			player.sendMessage("Block Event Names Below");
 	        			player.sendMessage("----------------------------------");
 	        			for(String event : categorized_events.get("block")){
 	        				player.sendMessage(event);
 	        			}
 	        			return true;
-	        		}else if(args[1].contentEquals("world")){
+	        		}else if(args[0].contentEquals("world")){
 	        			player.sendMessage("World Event Names Below");
 	        			player.sendMessage("----------------------------------");
 	        			for(String event : categorized_events.get("world")){
 	        				player.sendMessage(event);
 	        			}
 	        			return true;
-	        		}else if(args[1].contentEquals("entity")){
+	        		}else if(args[0].contentEquals("entity")){
 	        			player.sendMessage("Entity Event Names Below");
 	        			player.sendMessage("----------------------------------");
 	        			for(String event : categorized_events.get("entity")){
 	        				player.sendMessage(event);
 	        			}
 	        			return true;
-	        		}else if(args[1].contentEquals("vehicle")){
+	        		}else if(args[0].contentEquals("vehicle")){
 	        			player.sendMessage("Vehicle Event Names Below");
 	        			player.sendMessage("----------------------------------");
 	        			for(String event : categorized_events.get("entity")){
@@ -250,8 +251,46 @@ public class systemtest extends JavaPlugin{
 	    		}
 	        	player.sendMessage("Enabled all events.");
 	        	return true;
+	        }else if(commandName.equalsIgnoreCase("st_gtoggle")){
+	        	if(args.length==1){
+	        		if(args[0].contentEquals("player")){
+	        			player.sendMessage("Player Event Names Below");
+	        			player.sendMessage("----------------------------------");
+	        			for(String event : categorized_events.get("player")){
+	        				player.sendMessage(event);
+	        			}
+	        			return true;
+	        		}else if(args[0].contentEquals("block")){
+	        			player.sendMessage("Block Event Names Below");
+	        			player.sendMessage("----------------------------------");
+	        			for(String event : categorized_events.get("block")){
+	        				player.sendMessage(event);
+	        			}
+	        			return true;
+	        		}else if(args[0].contentEquals("world")){
+	        			player.sendMessage("World Event Names Below");
+	        			player.sendMessage("----------------------------------");
+	        			for(String event : categorized_events.get("world")){
+	        				player.sendMessage(event);
+	        			}
+	        			return true;
+	        		}else if(args[0].contentEquals("entity")){
+	        			player.sendMessage("Entity Event Names Below");}
+	        			player.sendMessage("----------------------------------");
+	        			for(String event : categorized_events.get("entity")){
+	        				player.sendMessage(event);
+	        			}
+	        			return true;
+	        		}else if(args[0].contentEquals("vehicle")){
+	        			player.sendMessage("Vehicle Event Names Below");
+	        			player.sendMessage("----------------------------------");
+	        			for(String event : categorized_events.get("entity")){
+	        				player.sendMessage(event);
+	        			}
+	        			return true;
+	        		}
 	        }
-		}
+	    }
         return false;
     }
 	public void RESET(){
